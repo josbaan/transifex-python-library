@@ -17,7 +17,7 @@ def auto_clean_registry():
 class DummyModel(BaseModel):
     """A dummy class useful for testing behaviour that requires
     some configuration that is not defined in BaseModel."""
-    writable_fields = {'name', 'description'}
+    writable_fields = {'name', 'description', 'slug'}
     url_fields = {'slug'}
 
 

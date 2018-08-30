@@ -226,7 +226,7 @@ class BaseModel(object):
         """
         for field in fields:
             if field in self.writable_fields:
-                setattr(self, field, fields[field])
+                self._modified_fields[field] = fields[field]
             else:
                 self._handle_wrong_field(field, ATTR_TYPE_WRITE)
 
@@ -234,6 +234,13 @@ class BaseModel(object):
             self._update(**self._modified_fields)
         else:
             self._create(**self._modified_fields)
+
+        for field in fields:
+            if field in self.writable_fields:
+                setattr(self, field, fields[field])
+            else:
+                self._handle_wrong_field(field, ATTR_TYPE_WRITE)
+
 
     def delete(self):
         """Delete the instance from the remote Transifex server."""
