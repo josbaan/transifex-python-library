@@ -202,7 +202,10 @@ class BaseModel(object):
         """
         # If __init__() hasn't finished yet, accept anything
         if ('_is_initialized' not in self.__dict__) or (name in self.__dict__):
-            return super(BaseModel, self).__setattr__(name, value)
+            if name in self.__dict__ and name in self.writable_fields:
+                self._modified_fields[name] = value
+            else:
+                return super(BaseModel, self).__setattr__(name, value)
 
         elif name in self.writable_fields:
             self._modified_fields[name] = value
